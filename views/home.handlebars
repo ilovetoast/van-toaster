@@ -2,8 +2,11 @@
 	<div class="container text-center">
 		<div id="app">
 	  		<div class="h3 mb-3">\{{ hl }}</div>
-	  		<div v-bind:class="{ 'alert alert-danger' : error }">
+	  		<div v-if="error" v-bind:class="{ 'alert alert-danger' : error }">
 				\{{wifiData}}
+			</div>
+			<div v-else>
+				<div v-for="item in wifiData" :key="item.mac">\{{item.essid}} - \{{item.quality}}</div>
 			</div>
 		</div>
 	</div>
