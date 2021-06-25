@@ -9,7 +9,7 @@ while read line; do
         [[ "$encryption" == "" && "$enc" =~ On ]] && encryption = "WEP"
 
         # If we already found one network then echo its information
-        [[ "$network" != "" ]] && echo "$network '[$encryption]'}"
+        [[ "$network" != "" ]] && echo "$network \"[$encryption]\"},"
         network=""
         encryption=""
     }
@@ -35,7 +35,7 @@ while read line; do
     ## The ESSID is the last line of the basic channel data, so build information string now
     [[ "$line" =~ ESSID ]] && {
         essid=${line##*ID:}
-        network="{'mac': '$mac',  'essid': $essid,  'frequence': '$frq', 'channel': '$chn', 'quality': '$qual',  'level': '$lvl',  'protected': '$enc', 'encryption':"  # output after ESSID
+        network="{\"mac\": \"$mac\", \"essid\": $essid, \"frequence\": \"$frq\", \"channel\": \"$chn\", \"quality\": \"$qual\",  \"level\": \"$lvl\", \"protected\": \"$enc\", \"encryption\":"  # output after ESSID
     }
 
     ## WPA encryption information
@@ -47,4 +47,4 @@ while read line; do
     [[ "$line" =~ "Pairwise Cipher" ]] && encryption="$encryption,${line##*: }"
     [[ "$line" =~ "Authentication Suites" ]] && encryption="$encryption,${line##*: }"
 done < <(iwlist wlan1 scan 2>/dev/null )
-echo "]"
+echo "{}]"
