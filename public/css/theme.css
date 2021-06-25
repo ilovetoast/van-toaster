@@ -1,0 +1,11 @@
+
+:root {
+	--bg-color: #0f0022;
+}
+body,html{
+	height:  100%;
+}
+body{
+	background: var(--bg-color);
+	color:  #fff;
+}

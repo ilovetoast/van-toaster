@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const app = express()
+require('dotenv').config();
+
 app.use(bodyParser.json());
 app.use(cors());
 app.engine('handlebars', exphbs());
@@ -13,7 +15,7 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname,'views/'));
 app.use('/static',express.static(__dirname + '/public'));
 
-const port = 80
+const port = process.env.PORT || 3000;
 
 app.get('/', function (req, res) {
     res.render('home');
@@ -21,15 +23,14 @@ app.get('/', function (req, res) {
 
 app.get('/wifi', (req, res) => {
   
-  exec("ls -la", (e,s,se) =>{
+  exec("iwlist scan", (e,s,se) =>{
 	  if(e){
-	  res.send(e);
+	  	res.json({err: e });
+	  }else if(se){
+	  	res.json({err: se });
+	  }else{
+	  	res.json({res: s});
 	  }
-
-	  if(se){
-	  res.send(se);
-	  }
-	  res.send(s);
   });
 })
 
