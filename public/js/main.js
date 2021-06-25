@@ -17,6 +17,9 @@ var app = new Vue({
         this.wifiData = wifi.err;
         this.error = true;
       }      
+    },
+    parseBash: function(){
+     return string.split('\n')
     }
   },
   mounted(){

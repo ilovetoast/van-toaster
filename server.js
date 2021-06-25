@@ -16,6 +16,7 @@ app.set('views', path.join(__dirname,'views/'));
 app.use('/static',express.static(__dirname + '/public'));
 
 const port = process.env.PORT || 3000;
+const interface = process.env.INTERFACE || 'wlan1';
 
 app.get('/', function (req, res) {
     res.render('home');
@@ -23,7 +24,7 @@ app.get('/', function (req, res) {
 
 app.get('/wifi', (req, res) => {
   
-  exec("iwlist scan", (e,s,se) =>{
+  exec(`.${__dirname}/bash/wifi-scan.sh ${interface} scan`, (e,s,se) =>{
 	  if(e){
 	  	res.json({err: e });
 	  }else if(se){
