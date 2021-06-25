@@ -30,7 +30,8 @@ app.get('/wifi', (req, res) => {
 	  }else if(se){
 	  	res.json({err: se });
 	  }else{
-	  	res.json({res: s});
+		let json = JSON.parse(s.replace(/\n/g,''))
+	  	res.json({res:json});
 	  }
   });
 })
