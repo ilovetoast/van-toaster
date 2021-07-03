@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
     res.render('home');
 });
 
-app.get('/wifi', (req, res) => {
+app.get('/wifi-scan', (req, res) => {
   
   exec(`.${__dirname}/bash/wifi-scan.sh ${interface} scan`, (e,s,se) =>{
 	  if(e){
@@ -36,6 +36,19 @@ app.get('/wifi', (req, res) => {
   });
 })
 
+app.get('/wifi-active', (req, res) => {
+  
+	exec(`.${__dirname}/bash/wifi-active.sh`, (e,s,se) =>{
+		if(e){
+			res.json({err: e });
+		}else if(se){
+			res.json({err: se });
+		}else{
+		  let json = JSON.parse(s.replace(/\n/g,''));
+		  res.json({res:json});
+		}
+	});
+  })
 
 
 app.listen(port, () => {
